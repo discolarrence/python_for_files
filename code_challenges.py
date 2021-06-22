@@ -46,4 +46,10 @@ def cleanup(path):
                     username = _
             old_name = path + '/' + f
             new_name = path + '/' + '-'.join(date) + '-' + username + '.' + extension
-            os.rename(old_name, new_name)   
+            os.rename(old_name, new_name)
+
+# Make a function named delete_by_date. It should take date string like 2015-10-31 and delete any files in the "backups" local directory that have that date in their filename.
+def delete_by_date(date):
+    for filename in os.listdir(os.getcwd() + '/backups'):
+        if date in filename:
+            os.remove('backups/' + filename)
