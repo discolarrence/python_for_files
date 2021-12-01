@@ -8,3 +8,9 @@
 
 ### tree.py
 - function to check directory contents
+
+### temporary.py
+-  ways to create temporary files & directories in python shell
+
+### builder.py
+-- builder project-WIP

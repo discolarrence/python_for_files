@@ -1,4 +1,8 @@
 import os
+import pathlib
+import re
+import unicodedata
+
 
 # write a function named absolute that takes two arguments, a path string and a root string. 
 # If the path is not already absolute, return the path with the root prepended to it.
@@ -53,3 +57,29 @@ def delete_by_date(date):
     for filename in os.listdir(os.getcwd() + '/backups'):
         if date in filename:
             os.remove('backups/' + filename)
+
+# if the path is relative, change it into an absolute path. 
+# You can assume that the path is relative from the current working directory.
+def get_root():
+    root = pathlib.PurePath(
+        input("What's the full path where you'd like the project? ")
+    )
+    if not root.is_absolute():
+        script_path = pathlib.Path(__file__).parent.absolute()
+        root = os.path.join(script_path, root)
+    return root
+
+# make your own slugify function in slug.py. 
+# Your function should accept two arguments, a string to make into an acceptable file or directory name, and a path.
+# Slugs should be unique for their path (you can't have two files or directories with the same name in the same directory), slugs shouldn't have spaces in them, 
+# slug should start with a number, letter, or underscore.
+
+def slugify(string, path):
+    string = unicodedata.normalize('NFKC', string)
+    string = re.sub(r'[\w\s]', '', string).strip().lower()
+    first_char = re.compile(r'[_\w\d]')
+    if first_char.match(string, 0) == None:
+        string = "_" + string
+    if os.path.join(path, string):
+        string = string + '2'
+    return os.path.join(path, string)
